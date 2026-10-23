@@ -8,7 +8,7 @@ Tú das la orden desde **Telegram**, **Batuta** (el orquestador) dirige y tres e
 | Agente | Personalidad | Qué hace |
 |---|---|---|
 | **Iris** · La Recolectora | Curiosa y meticulosa; jamás inventa un dato | Consulta datos reales de Alpha Vantage por MCP |
-| **Euler** · El Analista | Riguroso con los números | Python calcula; OpenAI interpreta |
+| **Euler** · El Analista | Auditor escéptico y didáctico | Python calcula; OpenAI interpreta |
 | **Vera** · La Comunicadora | Clara, breve y honesta | Redacta la nota final para Telegram |
 
 ```
@@ -44,7 +44,7 @@ Las instrucciones paso a paso están en [`docs/`](docs/): Guía del estudiante y
 ## Empezar en 1 minuto, sin llaves
 ```bash
 pip install -r requirements.txt pytest
-pytest -q                               # 20 passed
+pytest -q                               # 22 passed
 python analizar.py AAPL --simulacion    # la cadena completa con datos ficticios
 ```
 
@@ -68,5 +68,7 @@ cp .env.example .env                                   # abre .env y pega tus ll
 Dónde guardarlas, según la ruta: **Colab** → panel 🔑 · **Actions** → Settings → Secrets and variables → Actions ·
 **Codespaces** → tu perfil → Settings → Codespaces → Codespaces secrets · **Tu computadora** → archivo `.env`.
 Nunca las escribas en el código ni las subas a GitHub.
+
+`TELEGRAM_CHAT_ID` es obligatorio: el bot ignora cualquier mensaje que no provenga de ese chat y no se inicia si falta esta configuración.
 
 > Material educativo. Las notas que generan los agentes **no son recomendaciones de inversión**.

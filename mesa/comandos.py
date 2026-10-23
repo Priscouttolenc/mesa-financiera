@@ -18,7 +18,6 @@ def atender(mensaje):
     texto = (mensaje.get("text") or "").strip()
 
     if not chat_autorizado(chat_id):
-        enviar(chat_id, "Este bot es privado.")
         return None
     if not es_analisis(texto):
         enviar(chat_id, AYUDA)

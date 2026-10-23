@@ -41,6 +41,7 @@ def llamar_openai(system, mensaje, usar_mcp=False, max_tokens=900):
                 "server_label": "alphavantage",
                 "server_description": "Consulta datos bursátiles actuales de Alpha Vantage.",
                 "server_url": f"https://mcp.alphavantage.co/mcp?apikey={config.ALPHAVANTAGE_API_KEY}",
+                "allowed_tools": {"read_only": True},
                 "require_approval": "never",
             }],
         )

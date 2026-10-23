@@ -109,6 +109,7 @@ def test_llamar_openai_configura_mcp_y_registra_la_herramienta(monkeypatch):
     assert texto == '{"precio": 100}' and herramientas == ["GLOBAL_QUOTE"]
     herramienta = llamadas[0]["tools"][0]
     assert herramienta["type"] == "mcp" and herramienta["server_label"] == "alphavantage"
+    assert herramienta["allowed_tools"] == {"read_only": True}
     assert llamadas[0]["store"] is False and "max_output_tokens" in llamadas[0]
 
 
@@ -117,11 +118,19 @@ def test_bot_ignora_chats_ajenos_y_responde_ayuda(monkeypatch):
     monkeypatch.setattr(comandos, "enviar", lambda chat, texto: enviados.append((chat, texto)))
     monkeypatch.setattr(config, "TELEGRAM_CHAT_ID", "111")
     assert comandos.atender({"chat": {"id": 999}, "text": "/analiza AAPL"}) is None
-    assert enviados[-1][1] == "Este bot es privado."
+    assert enviados == []
     comandos.atender({"chat": {"id": 111}, "text": "hola"})
     assert "Mesa Financiera" in enviados[-1][1]
     r = comandos.atender({"chat": {"id": 111}, "text": "/analiza aapl"})
     assert r["ticker"] == "AAPL" and agentes.DESCARGO in enviados[-1][1]
+
+
+def test_bot_bloquea_mensajes_si_falta_chat_autorizado(monkeypatch):
+    enviados = []
+    monkeypatch.setattr(comandos, "enviar", lambda chat, texto: enviados.append((chat, texto)))
+    monkeypatch.setattr(config, "TELEGRAM_CHAT_ID", "")
+    assert comandos.atender({"chat": {"id": 111}, "text": "/analiza AAPL"}) is None
+    assert enviados == []
 
 
 def test_revision_de_github_actions_atiende_y_confirma(monkeypatch):
